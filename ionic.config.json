@@ -1,0 +1,7 @@
+{
+  "name": "denarius",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
