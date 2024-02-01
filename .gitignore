@@ -62,6 +62,10 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+.firebaserc
+.firebase
+.github
+.vscode
 
 # System files
 .DS_Store
