@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div *ngIf="walletAddress">
+    <p>Wallet Address: {{ walletAddress }}</p>
+  </div>
+  <div *ngIf="!walletAddress">
+    <p>Wallet not connected</p>
+  </div>
+  <div *ngIf="!walletAddress">
+    <button (click)="connectMetamask()">Connect Metamask</button>
+  </div>
+</ion-content>
