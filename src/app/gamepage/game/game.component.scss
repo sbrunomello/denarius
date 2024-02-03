@@ -1,0 +1,106 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.game-container {
+  //position: relative;
+  //width: 80vh;
+  //height: 80vh; /* Ajuste conforme necessário */
+  margin: 20px auto; /* Espaçamento das bordas */
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-left: 10%;
+  flex-direction: column;
+  flex: 2; /* Ocupa 2 partes do espaço disponível */
+}
+
+.image-container {
+  height: 100%; /* Preenche toda a altura do container pai */
+  /* Adicione outros estilos conforme necessário */
+}
+
+.game-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /*  colunas */
+  grid-template-rows: repeat(6, auto); /* Altura automática das linhas */
+  gap: 2px; /* Espaçamento entre as células */
+}
+
+.game-row {
+  display: contents; /* Ignora as margens das linhas */
+}
+
+.game-cell {
+  width: 100%; /* Define a largura da célula como uma fração do tamanho da grade */
+  height: 100%; /* Define a altura da célula como uma fração do tamanho da grade */
+  box-sizing: border-box; /* Garante que a largura e altura incluam a borda e o preenchimento */
+  position: relative; /* Garante que a posição seja relativa */
+  overflow: hidden; /* Evita que a imagem ultrapasse os limites da célula */
+}
+
+.game-cell img {
+  display: block; /* Define a imagem como um bloco */
+  margin: auto; /* Define margens automáticas para centralizar a imagem */
+}
+
+/*.house-cell {
+  width: 20%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.game-cell.buildable {
+  background-color: #4cc9263d; /* Cor de fundo para células construíveis */
+}
+
+.game-cell.highlighted {
+  background-color: #d3641bb9; /* Cor de fundo da célula destacada */
+}
+.game-cell.building {
+  background-color: red; /* Altera a cor de fundo da célula para vermelho quando construída */
+}
+.game-cell:hover {
+  background-color: #adda0b79; /* Cor de fundo ao passar o mouse sobre a célula */
+}
+
+.map-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/imgs/fundo-mapa.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Coloca a imagem de fundo atrás do grid */
+}
+
+.build-menu {
+  top: 10px;
+  display: flex;
+}
+
+.build-option {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.build-option img {
+  width: 50px;
+  height: 50px;
+}
+
+.build-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}

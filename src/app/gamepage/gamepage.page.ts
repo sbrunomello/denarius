@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-game',
-  templateUrl: 'game.page.html',
-  styleUrls: ['game.page.scss']
+  selector: 'app-gamepage',
+  templateUrl: 'gamepage.page.html',
+  styleUrls: ['gamepage.page.scss']
 })
 export class GamePage {
 

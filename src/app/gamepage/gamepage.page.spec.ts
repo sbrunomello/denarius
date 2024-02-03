@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { GamePage } from './game.page';
+import { GamePage } from './gamepage.page';
 
 describe('GamePage', () => {
   let component: GamePage;
