@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Construções Disponíveis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4" *ngFor="let build of buildings">
+        <ion-item (click)="selectBuilding(build)">
+          <ion-avatar slot="start">
+            <img [src]="build.image" alt="{{ build.name }}">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ build.name }}</h2>
+            <p>Valor: {{ build.cost }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,5 +1,5 @@
+<app-navbar></app-navbar>
 <div class="container">
-  
   <div class="game-container">
     <div class="image-container">
       <a class="map-background"></a>
@@ -7,18 +7,11 @@
         <div *ngFor="let row of grid; let i = index" class="game-row">
           <div *ngFor="let cell of row; let j = index" class="game-cell" [ngClass]="{
             'game-cell': true,
-            'highlighted': highlightedCell?.row === i && highlightedCell?.col === j,
-            'buildable': buildable[i][j],
-            'building': grid[i][j] === 'building'
-          }" (click)=" openBuildingModal(i, j)">
-            <!-- <ng-container *ngIf="showButtons && buildRow === i && buildCol === j">
-              <ion-buttons>
-                <ion-button (click)="confirmBuilding()">ok</ion-button>
-                <ion-button (click)="cancelBuilding()">x</ion-button>
-              </ion-buttons>
-            </ng-container>-->
+            'highlighted': isHighlighted(i, j),
+            'buildable': buildable[i][j]
+        }" (click)=" openBuildingOrInfo(i, j, cell)">
             <ng-container *ngIf="!!cell">
-              <img [src]="cell" alt="Building" [class.house-cell]="i === houseCell?.row && j === houseCell?.col">
+              <img [src]="cell.src" alt="Building" [class.build-cell]="i === buildCell?.row && j === buildCell?.col">
             </ng-container>
           </div>
         </div>

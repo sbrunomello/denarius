@@ -8,15 +8,15 @@
   //position: relative;
   //width: 80vh;
   //height: 80vh; /* Ajuste conforme necessário */
-  margin: 20px auto; /* Espaçamento das bordas */
-  overflow: hidden;
-  position: relative;
+  //margin: 20px auto; /* Espaçamento das bordas */
+  overflow: auto;
+  //position: relative;
   width: 100%;
   height: 100%;
   display: flex;
-  margin-left: 10%;
+  //margin-left: 10%;
   flex-direction: column;
-  flex: 2; /* Ocupa 2 partes do espaço disponível */
+  //flex: 2; /* Ocupa 2 partes do espaço disponível */
 }
 
 .image-container {
@@ -33,13 +33,37 @@
   gap: 2px; /* Espaçamento entre as células */
 }
 
+.construction-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /*  colunas */
+  grid-template-rows: repeat(6, auto); /* Altura automática das linhas */
+  gap: 2px; /* Espaçamento entre as células */
+}
+
+.construction-row {
+  display: contents; /* Ignora as margens das linhas */
+}
+
+.construction-cell {
+  margin: auto;
+  width: 10vw; /* Define a largura como 10% da largura da viewport */
+  height: 10vw; /* Define a altura como 10% da largura da viewport */ 
+  box-sizing: border-box; /* Garante que a largura e altura incluam a borda e o preenchimento */
+  position: relative; /* Garante que a posição seja relativa */
+  overflow: hidden; /* Evita que a imagem ultrapasse os limites da célula */
+}
+
 .game-row {
   display: contents; /* Ignora as margens das linhas */
 }
 
 .game-cell {
-  width: 100%; /* Define a largura da célula como uma fração do tamanho da grade */
-  height: 100%; /* Define a altura da célula como uma fração do tamanho da grade */
+  //margin: auto;
+  width: 10vw; /* Define a largura como 10% da largura da viewport */
+  height: 10vw; /* Define a altura como 10% da largura da viewport */ 
+  
   box-sizing: border-box; /* Garante que a largura e altura incluam a borda e o preenchimento */
   position: relative; /* Garante que a posição seja relativa */
   overflow: hidden; /* Evita que a imagem ultrapasse os limites da célula */
@@ -63,13 +87,13 @@
 }
 
 .game-cell.highlighted {
-  background-color: #d3641bb9; /* Cor de fundo da célula destacada */
+  background-color: #1bd35288; /* Cor de fundo da célula destacada */
 }
 .game-cell.building {
   background-color: red; /* Altera a cor de fundo da célula para vermelho quando construída */
 }
 .game-cell:hover {
-  background-color: #adda0b79; /* Cor de fundo ao passar o mouse sobre a célula */
+  background-color: #adda0ba2; /* Cor de fundo ao passar o mouse sobre a célula */
 }
 
 .map-background {
