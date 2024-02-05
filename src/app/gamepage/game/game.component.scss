@@ -1,4 +1,5 @@
 .container {
+  overflow: auto;
   width: 100%;
   height: 100%;
   display: flex;
@@ -9,7 +10,6 @@
   //width: 80vh;
   //height: 80vh; /* Ajuste conforme necessário */
   //margin: 20px auto; /* Espaçamento das bordas */
-  overflow: auto;
   //position: relative;
   width: 100%;
   height: 100%;
@@ -28,51 +28,25 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /*  colunas */
-  grid-template-rows: repeat(6, auto); /* Altura automática das linhas */
-  gap: 2px; /* Espaçamento entre as células */
+  grid-template-columns: repeat(32, 0fr); /*  colunas */
+  //grid-template-rows: repeat(32, auto); /* Altura automática das linhas */
 }
 
-.construction-grid {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /*  colunas */
-  grid-template-rows: repeat(6, auto); /* Altura automática das linhas */
-  gap: 2px; /* Espaçamento entre as células */
-}
-
-.construction-row {
-  display: contents; /* Ignora as margens das linhas */
-}
-
-.construction-cell {
-  margin: auto;
-  width: 10vw; /* Define a largura como 10% da largura da viewport */
-  height: 10vw; /* Define a altura como 10% da largura da viewport */ 
-  box-sizing: border-box; /* Garante que a largura e altura incluam a borda e o preenchimento */
-  position: relative; /* Garante que a posição seja relativa */
-  overflow: hidden; /* Evita que a imagem ultrapasse os limites da célula */
-}
 
 .game-row {
   display: contents; /* Ignora as margens das linhas */
 }
 
 .game-cell {
-  //margin: auto;
-  width: 10vw; /* Define a largura como 10% da largura da viewport */
-  height: 10vw; /* Define a altura como 10% da largura da viewport */ 
-  
-  box-sizing: border-box; /* Garante que a largura e altura incluam a borda e o preenchimento */
-  position: relative; /* Garante que a posição seja relativa */
-  overflow: hidden; /* Evita que a imagem ultrapasse os limites da célula */
+  width: 70px;
+  height: 70px;
 }
 
 .game-cell img {
-  display: block; /* Define a imagem como um bloco */
-  margin: auto; /* Define margens automáticas para centralizar a imagem */
+  width: 100%!important; /* Ajusta a largura da imagem para preencher a célula */
+  height: 100%!important; /* Ajusta a altura da imagem para preencher a célula */
 }
+
 
 /*.house-cell {
   width: 20%;

@@ -38,8 +38,8 @@ export class GameComponent implements OnInit {
 
   initializeGrid() {
     // Definir o tamanho da grade do mapa (por exemplo, 10x10)
-    const rows = 6;
-    const cols = 6;
+    const rows = 16;
+    const cols = 16;
 
     // Inicializar a grade do mapa com células vazias e definir a construtibilidade
     this.grid = [];
@@ -74,6 +74,50 @@ export class GameComponent implements OnInit {
     }
   }
 
+  getBuildingHeight(cell: any): string {
+    // Verifica se a célula contém um edifício
+    if (cell && cell.size && cell.size.row) {
+      // Calcula a altura do edifício com base no número de linhas ocupadas
+      return `${cell.size.row * 10}vw`; // Supondo que cada célula tem 10vw de altura
+    } else {
+      return 'auto'; // Define a altura como automática se não houver edifício na célula
+    }
+  }
+
+  getBuildingWidth(cell: any): string {
+    // Verifica se a célula contém um edifício
+    if (cell && cell.size && cell.size.col) {
+      // Calcula a largura do edifício com base no número de colunas ocupadas
+      return `${cell.size.col * 10}vw`; // Supondo que cada célula tem 10vw de largura
+    } else {
+      return 'auto'; // Define a largura como automática se não houver edifício na célula
+    }
+  }
+
+  getGridColumnEnd(colIndex: number, cell: any): string {
+    // Verifica se a célula contém um edifício
+    if (cell && cell.size && cell.size.col) {
+      // Calcula o final da coluna ocupada pelo edifício
+      return `span ${cell.size.col + colIndex}`; // Calcula a quantidade de colunas ocupadas pelo edifício
+    } else {
+      return 'auto'; // Define o final da coluna como automático se não houver edifício na célula
+    }
+  }
+
+  getGridRowEnd(rowIndex: number, cell: any): string {
+    // Verifica se a célula contém um edifício
+    if (cell && cell.size && cell.size.row) {
+      // Calcula o final da linha ocupada pelo edifício
+      return `span ${cell.size.row + rowIndex}`; // Calcula a quantidade de linhas ocupadas pelo edifício
+    } else {
+      return 'auto'; // Define o final da linha como automático se não houver edifício na célula
+    }
+  }
+  
+  
+  
+  
+
   async openBuildingOrInfo(row: number, col: number, cell: any) {
     if (this.grid[row][col]) {
       // Já existe uma construção na célula, abrir o popover de informações
@@ -86,14 +130,14 @@ export class GameComponent implements OnInit {
         translucent: true,
       });
       console.log(cell);
-
+  
       await popover.present();
     } else {
       // Não existe uma construção na célula, abrir o modal de construção
       const modal = await this.modalController.create({
         component: BuildingModalContentComponent,
         componentProps: {
-          // Passar as construções disponíveis para o modal, se necessário
+          //buildings: buildings, // Passa a lista de edifícios disponíveis para o modal
         },
       });
       await modal.present();
@@ -103,12 +147,9 @@ export class GameComponent implements OnInit {
         console.log('Construção selecionada:', data);
         this.selectedBuilding = data.name;
         this.build = data;
-
-        console.log(this.buildInfo);
-
-        // Verificar o tamanho da construção
+  
+        // Atualizar a célula destacada com o tamanho do edifício selecionado
         this.selectBuilding(this.build, row, col);
-
         this.placeBuilding(row, col);
       }
     }
@@ -144,25 +185,39 @@ export class GameComponent implements OnInit {
   placeBuilding(row: number, col: number) {
     // Verifica se a célula clicada é construível
     if (this.selectedBuilding && this.buildable[row][col]) {
-      // Atualiza a célula clicada para ficar vermelha
-      this.buildRow = row;
-      this.buildCol = col;
-      this.showButtons = true;
-      this.confirmBuilding();
-      console.log(this.showButtons);
-      //this.grid[row][col] = 'assets/imgs/' + this.selectedBuilding + '.gif';
-      console.log(
-        `Placed building [` +
-          this.selectedBuilding +
-          `] at row ${row}, col ${col}`
-      );
-
-      this.buildCell = { row, col };
-
-      this.buildable[row][col] = false;
-      this.highlightedCell = null;
+      const buildingSize = this.build.size;
+      const endRow = row + buildingSize.row - 1;
+      const endCol = col + buildingSize.col - 1;
+  
+      // Verifica se todas as células necessárias para o edifício estão disponíveis
+      if (endRow < this.grid.length && endCol < this.grid[row].length) {
+        // Atualiza a grade com as células ocupadas pelo edifício
+        let imgIndex:number = 1;
+        let nameBuild: string;
+        nameBuild = this.selectedBuilding.toLowerCase();
+        for (let j = col; j <= endCol; j++ ) {
+          for (let i = row; i <= endRow; i++) {
+            
+            this.grid[i][j] = {
+              building: this.selectedBuilding,
+              //src: 'assets/imgs/' + this.selectedBuilding + '/' + nameBuild +'_' + imgIndex + '.png',
+              src: 'assets/imgs/'+ nameBuild +'/'+ nameBuild +'_' + imgIndex + '.png',
+            };
+            this.buildable[i][j] = false;
+            imgIndex++;
+          }
+        }
+        // Define a célula de construção selecionada e limpa a célula destacada
+        this.buildCell = { row, col };
+        this.highlightedCell = null;
+        // Oculta os botões de construção
+        this.showButtons = false;
+      }
     }
   }
+  
+  
+  
 
   onBuildingSelected(building: string) {
     this.selectedBuilding = building;

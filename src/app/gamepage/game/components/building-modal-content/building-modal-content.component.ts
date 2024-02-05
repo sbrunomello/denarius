@@ -9,19 +9,14 @@ import { Building } from '../../models/building.model';
 })
 export class BuildingModalContentComponent {
   buildings: Building[] = [
-    new Building('Farm', 'assets/imgs/Farm.gif', 5, { row: 4, col: 4 }),
-    new Building('House', 'assets/imgs/House.gif', 100, { row: 4, col: 4 }),
-    new Building('House2', 'assets/imgs/House2.gif', 100, { row: 4, col: 4 }),
-    new Building('House3', 'assets/imgs/House3.gif', 100, { row: 4, col: 4 }),
-    new Building('Sawmill', 'assets/imgs/Sawmill.gif', 250, { row: 4, col: 4 }),
-    new Building('Quarry', 'assets/imgs/Quarry.gif', 300, { row: 4, col: 4 }),
-    new Building('Warehouse', 'assets/imgs/Warehouse.gif', 450, { row: 4, col: 4 }),
-    new Building('Blacksmith', 'assets/imgs/Blacksmith.gif', 600, { row: 4, col: 4 }),
-    new Building('Castle', 'assets/imgs/Castle.gif', 1000, { row: 4, col: 4 }),
-    new Building('Stable', 'assets/imgs/Stable.gif', 350, { row: 4, col: 4 })
+    new Building('Towncenter', 5, { row: 4, col: 4 }),
+    new Building('House', 5, { row: 2, col: 2 }),
+    new Building('Farm', 5, { row: 2, col: 2 }),
+    new Building('Warehouse', 5, { row: 2, col: 2 }),
+    new Building('Road', 5, { row: 1, col: 1 }),
   ];
 
-  size!: { row: number, col: number };
+  size!: { row: number; col: number };
 
   buildName: any;
   buildImage: any;
@@ -32,6 +27,10 @@ export class BuildingModalContentComponent {
   selectBuilding(building: Building) {
     this.modalController.dismiss(building);
     console.log(building);
-    
+  }
+
+  returnImageBuild(buildName: string) {
+    let srcImg = 'assets/imgs/' + buildName.toLowerCase() + '.png';
+    return srcImg;
   }
 }

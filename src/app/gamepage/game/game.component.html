@@ -4,14 +4,21 @@
     <div class="image-container">
       <a class="map-background"></a>
       <div class="game-grid">
-        <div *ngFor="let row of grid; let i = index" class="game-row">
-          <div *ngFor="let cell of row; let j = index" class="game-cell" [ngClass]="{
-            'game-cell': true,
-            'highlighted': isHighlighted(i, j),
-            'buildable': buildable[i][j]
-        }" (click)=" openBuildingOrInfo(i, j, cell)">
+        <div *ngFor="let row of grid; let i = index">
+          <div *ngFor="let cell of row; let j = index" class="game-cell"
+               [ngClass]="{
+                 'game-cell': true,
+                 'highlighted': isHighlighted(i, j),
+                 'buildable': buildable[i][j]
+               }"
+               (click)="openBuildingOrInfo(i, j, cell)"
+               [style.gridRowEnd]="getGridRowEnd(i, cell)"
+               [style.gridColumnEnd]="getGridColumnEnd(j, cell)">
             <ng-container *ngIf="!!cell">
-              <img [src]="cell.src" alt="Building" [class.build-cell]="i === buildCell?.row && j === buildCell?.col">
+              <img [src]="cell.src" alt="Building"
+                   [class.build-cell]="i === buildCell?.row && j === buildCell?.col"
+                   [style.width]="getBuildingWidth(cell)"
+                   [style.height]="getBuildingHeight(cell)">
             </ng-container>
           </div>
         </div>

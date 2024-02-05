@@ -31,7 +31,6 @@ export class BuildingInfoPopoverComponent {
 
   dismiss() {
     console.log(this.building);
-    this.image = this.building.image;
     this.name = this.building.name;
     
     this.popoverController.dismiss();

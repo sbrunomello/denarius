@@ -10,7 +10,7 @@
       <ion-col size="4" *ngFor="let build of buildings">
         <ion-item (click)="selectBuilding(build)">
           <ion-avatar slot="start">
-            <img [src]="build.image" alt="{{ build.name }}">
+            <img [src]="returnImageBuild(build.name)" alt="{{ build.name }}">
           </ion-avatar>
           <ion-label>
             <h2>{{ build.name }}</h2>
