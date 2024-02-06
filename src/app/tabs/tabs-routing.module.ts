@@ -21,14 +21,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/app/home',
+        redirectTo: '/app/game',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/app/home',
+    redirectTo: '/app/game',
     pathMatch: 'full'
   }
 ];
