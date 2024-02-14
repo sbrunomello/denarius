@@ -2,23 +2,35 @@
 <div class="container">
   <div class="game-container">
     <div class="image-container">
-      <a class="map-background"></a>
+      <img class="map-background" src="assets/imgs/fundo-mapa.png">
       <div class="game-grid">
         <div *ngFor="let row of grid; let i = index">
-          <div *ngFor="let cell of row; let j = index" class="game-cell"
-               [ngClass]="{
+          <div *ngFor="let cell of row; let j = index" class="game-cell" [ngClass]="{
                  'game-cell': true,
                  'highlighted': isHighlighted(i, j),
                  'buildable': buildable[i][j]
-               }"
-               (click)="openBuildingOrInfo(i, j, cell)"
-               [style.gridRowEnd]="getGridRowEnd(i, cell)"
-               [style.gridColumnEnd]="getGridColumnEnd(j, cell)">
+               }" (click)="openBuildingOrInfo(i, j, cell)" [style.gridRowEnd]="getGridRowEnd(i, cell)"
+            [style.gridColumnEnd]="getGridColumnEnd(j, cell)">
+
             <ng-container *ngIf="!!cell">
-              <img [src]="cell.src" alt="Building"
-                   [class.build-cell]="i === buildCell?.row && j === buildCell?.col"
-                   [style.width]="getBuildingWidth(cell)"
-                   [style.height]="getBuildingHeight(cell)">
+              <!-- Botão de construção -->
+              <!-- Progresso de construção -->
+              <div *ngIf="cell.showButtons">
+                <button  (click)="startConstruction(i, j, cell)">
+                  Construir
+                </button>
+                <button (click)="cancelConstruction(i, j, cell)">
+                  Cancelar
+                </button>
+              </div>
+              <div *ngIf="cell.constructing">
+                <div>Progresso: {{ cell.progress }}%</div>
+              </div>
+              <!-- Imagens dos blocos de construção -->
+              <ng-container>
+                <img *ngIf="cell.src" [src]="cell.src" alt="Building Block"
+                  [style.width]="getBuildingWidth(cell)" [style.height]="getBuildingHeight(cell)">
+              </ng-container>
             </ng-container>
           </div>
         </div>

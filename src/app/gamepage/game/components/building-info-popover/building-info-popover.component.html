@@ -1,3 +1,34 @@
-<p>
-  building-info-popover works!
-</p>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="assets/imgs/{{building.name.toLocaleLowerCase()}}.png" alt="{{ building.name }}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ building.name }}</h2>
+        <p> Custo: {{building.cost}} </p>
+        <p> Nivel: {{building.level}} </p>
+      </ion-label>
+
+      <button (click)="upgradeBuilding(building)">
+        Upgrade
+      </button>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let worker of building.workers">
+         
+              <p>🧔</p>
+              <p>Name: {{worker.name}}</p>
+              <p>Tier: T{{worker.tier}}</p>
+              <p>Job: {{worker.job}}</p>
+              <p></p>
+              
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+  <button (click)="addWorker(building)">
+    + 🧔
+  </button>
+</ion-content>

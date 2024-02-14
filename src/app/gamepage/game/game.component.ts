@@ -21,16 +21,18 @@ export class GameComponent implements OnInit {
   } | null = null; // Célula destacada ao passar o mouse sobre ela
   buildingOptionsVisible: boolean = false;
   selectedBuilding: string | null = null;
-  showButtons: boolean = false;
+  showBuildButtons: boolean = false;
   buildRow: any = 0;
   buildCol: any = 0;
   buildInfo!: any;
   build!: Building;
+  buildingProgress!: number;
+  cellConstruction: boolean = false;
 
   constructor(
     private modalController: ModalController,
     private popoverController: PopoverController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initializeGrid(); // Inicializar a grade do mapa
@@ -113,26 +115,32 @@ export class GameComponent implements OnInit {
       return 'auto'; // Define o final da linha como automático se não houver edifício na célula
     }
   }
-  
-  
-  
-  
+
+
+
+
 
   async openBuildingOrInfo(row: number, col: number, cell: any) {
-    if (this.grid[row][col]) {
+    let openModal: boolean = true;
+    if (this.grid[row][col] && !this.cellConstruction) {
       // Já existe uma construção na célula, abrir o popover de informações
       const popover = await this.popoverController.create({
         component: BuildingInfoPopoverComponent,
         componentProps: {
-          building: cell,
+          building: this.build,
         },
         event: event,
         translucent: true,
       });
-      console.log(cell);
-  
+      console.log(this.build);
+      console.log("--LOG GRID BUILD --");
+      console.log(this.grid);
+      console.log("--LOG GRID BUILD --");
+      let openModal: boolean = false;
+
       await popover.present();
-    } else {
+    }
+    if (!this.cellConstruction && !this.grid[row][col]) {
       // Não existe uma construção na célula, abrir o modal de construção
       const modal = await this.modalController.create({
         component: BuildingModalContentComponent,
@@ -144,13 +152,21 @@ export class GameComponent implements OnInit {
       const { data } = await modal.onDidDismiss();
       if (data) {
         // Lidar com a construção selecionada
+        console.log("--LOG GRID BUILD --");
+        console.log(this.grid);
+        console.log("--LOG GRID BUILD --");
+
+
         console.log('Construção selecionada:', data);
         this.selectedBuilding = data.name;
         this.build = data;
-  
+        this.grid[row][col] = {
+          showButtons: true
+        };
+
         // Atualizar a célula destacada com o tamanho do edifício selecionado
         this.selectBuilding(this.build, row, col);
-        this.placeBuilding(row, col);
+        this.cellConstruction = true;
       }
     }
   }
@@ -165,11 +181,11 @@ export class GameComponent implements OnInit {
   isBuildableCell(row: number, col: number): boolean {
     // Implemente a lógica para determinar se a célula é construível
     // Por exemplo, defina algumas células como construíveis e outras não
-    return !this.grid[row][col];
+    return !this.grid[row][col] || !this.grid[row][col].building;
   }
 
   highlightCell(row: number, col: number, size: { row: 4; col: 4 }) {
-    if (this.buildable[row][col]) {
+    if (this.buildable[row][col] && this.grid[row][col]) {
       this.highlightedCell = { row, col, size };
     } else {
       this.highlightedCell = null;
@@ -188,67 +204,102 @@ export class GameComponent implements OnInit {
       const buildingSize = this.build.size;
       const endRow = row + buildingSize.row - 1;
       const endCol = col + buildingSize.col - 1;
-  
+      let buildable = true;
+
       // Verifica se todas as células necessárias para o edifício estão disponíveis
       if (endRow < this.grid.length && endCol < this.grid[row].length) {
         // Atualiza a grade com as células ocupadas pelo edifício
-        let imgIndex:number = 1;
+        let imgIndex: number = 1;
         let nameBuild: string;
         nameBuild = this.selectedBuilding.toLowerCase();
-        for (let j = col; j <= endCol; j++ ) {
+        for (let j = col; j <= endCol; j++) {
           for (let i = row; i <= endRow; i++) {
-            
-            this.grid[i][j] = {
-              building: this.selectedBuilding,
-              //src: 'assets/imgs/' + this.selectedBuilding + '/' + nameBuild +'_' + imgIndex + '.png',
-              src: 'assets/imgs/'+ nameBuild +'/'+ nameBuild +'_' + imgIndex + '.png',
-            };
-            this.buildable[i][j] = false;
-            imgIndex++;
-          }
+            if (this.isBuildableCell(i, j) && this.buildable[i][j]) {
+              this.grid[i][j] = {
+                building: this.selectedBuilding,
+                src: 'assets/imgs/' + nameBuild + '/' + nameBuild + '_' + imgIndex + '.png',
+                buildCompleted: true
+              };
+              this.buildable[i][j] = false;
+              imgIndex++;
+            }
+          } 
         }
         // Define a célula de construção selecionada e limpa a célula destacada
         this.buildCell = { row, col };
         this.highlightedCell = null;
         // Oculta os botões de construção
-        this.showButtons = false;
+        this.showBuildButtons = false;
+        this.cellConstruction = false;
       }
     }
   }
-  
-  
-  
 
-  onBuildingSelected(building: string) {
-    this.selectedBuilding = building;
-    this.showButtons = false;
-    console.log(this.showButtons);
-    console.log(building);
+  verifyBuildableCell() {
+
   }
 
-  confirmBuilding() {
-    console.log(
-      `Construção confirmada na célula (${this.buildRow}, ${this.buildCol})`
-    );
-    // Implemente a lógica de confirmação da construção aqui
-    //this.grid[this.buildRow][this.buildCol] = 'assets/imgs/' + this.selectedBuilding + '.gif';
-    this.grid[this.buildRow][this.buildCol] = {
-      building: this.selectedBuilding,
-      src: 'assets/imgs/' + this.selectedBuilding + '.gif',
-    };
-    console.log(this.showButtons);
+  isSelectedCell(row: number, col: number): boolean {
+    var k = this.buildCell !== null && row === this.buildCell.row && col === this.buildCell.col;
+    if (k) {
+      console.log(k);
 
-    this.buildRow = null;
-    this.buildCol = null;
-    this.showButtons = false;
-    console.log(this.showButtons);
+    }
+
+    return this.buildCell !== null && row === this.buildCell.row && col === this.buildCell.col;
   }
 
-  cancelBuilding() {
-    console.log('Construção cancelada');
-    this.showButtons = false;
-    console.log(this.showButtons);
+  // startConstruction1(row: number, col: number, cell: any) {
+  //   this.build.progress = 0;
+  //   this.grid[row][col] = {
+  //     constructing: true,
+  //     progress: 0
+  //   };
+
+  //   cell.progress = 0;
+
+  //   console.log(`start construction in (${row}, ${col}, ${cell}`);
+
+  //   const constructionInterval = setInterval(() => {
+  //     if (cell.progress < 100) {
+  //       this.build.progress += 10; // Aumenta o progresso em 10% a cada intervalo (simulado)
+  //       cell.progress += 10;
+  //     } else {
+  //       cell.constructing = false;
+  //       this.placeBuilding(row, col);
+  //       console.log('construida');
+
+  //       clearInterval(constructionInterval);
+  //     }
+  //   }, 1000); // Intervalo de 1 segundo (simulado)
+  // }
+
+
+  startConstruction(row: number, col: number, cell: any) {
+    cell.constructing = true;
+    cell.progress = 0;
+    cell.showButtons = false;
+    if (this.isBuildableCell(row, col)) {
+
+    }
+    const constructionInterval = setInterval(() => {
+      if (cell.progress < 100) {
+        cell.progress += 1; // Aumenta o progresso em 10% a cada intervalo (simulado)
+      } else {
+        cell.constructing = false;
+        cell.completed = true;
+        this.placeBuilding(row, col);
+        clearInterval(constructionInterval);
+      }
+    }, 50); // Intervalo de 1 segundo (simulado)
+  }
+
+  cancelConstruction(row: number, col: number, cell: any) {
+    cell.constructing = false;
+    cell.showButtons = false;
     this.buildRow = null;
     this.buildCol = null;
+    this.cellConstruction = false;
+
   }
 }
