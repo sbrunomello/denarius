@@ -1,6 +1,6 @@
-# BlockCity – Web3 Strategy City Builder
+# denarius – Web3 Strategy City Builder
 
-BlockCity is a prototype of a city-building strategy game built with Angular + Ionic and integrated with Web3 via Metamask. The game simulates construction, citizens management and on-chain interactions for future NFT/Token logic.
+denarius is a prototype of a city-building strategy game built with Angular + Ionic and integrated with Web3 via Metamask. The game simulates construction, citizens management and on-chain interactions for future NFT/Token logic.
 
 ## 🔧 Features
 
@@ -22,7 +22,7 @@ BlockCity is a prototype of a city-building strategy game built with Angular + I
 ## 💻 Local Setup
 
 ```bash
-git clone https://github.com/sbrunomello/blockcity.git
-cd blockcity
+git clone https://github.com/sbrunomello/denarius.git
+cd denarius
 npm install
 ionic serve
